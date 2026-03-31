@@ -148,8 +148,17 @@ window.addEventListener("load",()=>{
 
 // Load channels.json
 async function loadChannels(){
-  const res = await fetch("https://raw.githubusercontent.com/vaathala00/jow/main/output.json?t=" + Date.now());
-  channels = await res.json();
+  const res = await fetch("https://raw.githubusercontent.com/sixpg/jio/main/stream.json?t=" + Date.now());
+  const data = await res.json();
+
+  // Convert object → array + map fields
+  channels = Object.values(data).map(c => ({
+    name: c.channel_name,
+    logo: c.tvg_logo,
+    link: c.url,
+    group: c.group_title
+  }));
+
   filtered = channels;
   renderCategories();
   renderChannels();
